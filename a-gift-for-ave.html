@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkmate ♟️❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at top,#2a0010 0%,#120008 50%,#050003 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Poppins',sans-serif;
+    position:relative;
+}
+
+/* glow */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:800px;
+    height:800px;
+    background:
+    radial-gradient(circle,rgba(255,0,90,.15),transparent 70%);
+    filter:blur(100px);
+}
+
+/* floating hearts */
+
+.heart{
+    position:absolute;
+    color:#ff7ea1;
+    opacity:.4;
+    pointer-events:none;
+    animation:float linear infinite;
+}
+
+@keyframes float{
+
+    from{
+        transform:translateY(120vh) rotate(0deg);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.5;
+    }
+
+    to{
+        transform:translateY(-120vh) rotate(360deg);
+        opacity:0;
+    }
+
+}
+
+/* container */
+
+.container{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+/* title */
+
+h1{
+    font-family:'Cinzel',serif;
+    font-size:78px;
+    color:#fff0f4;
+
+    text-shadow:
+    0 0 25px rgba(255,80,120,.35);
+}
+
+.subtitle{
+    margin-top:8px;
+    margin-bottom:35px;
+    color:#ffd0dc;
+    letter-spacing:7px;
+    font-size:13px;
+}
+
+/* board wrapper */
+
+.board-wrapper{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+}
+
+.middle-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* coordinates */
+
+.top-coords{
+    width:640px;
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    color:#ffd4df;
+    font-size:18px;
+    font-family:'Cinzel',serif;
+    opacity:.75;
+}
+
+.top-coords span{
+    text-align:center;
+}
+
+.left-coords{
+    height:640px;
+    display:grid;
+    grid-template-rows:repeat(8,1fr);
+    color:#ffd4df;
+    font-size:18px;
+    font-family:'Cinzel',serif;
+    opacity:.75;
+}
+
+.left-coords span{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* board */
+
+.board{
+    width:640px;
+    height:640px;
+
+    display:grid;
+
+    grid-template-columns:repeat(8,1fr);
+    grid-template-rows:repeat(8,1fr);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    box-shadow:
+    0 0 60px rgba(255,0,90,.15),
+    inset 0 0 20px rgba(255,255,255,.04);
+}
+
+/* squares */
+
+.square{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:.3s;
+}
+
+.light{
+    background:#f3d9e0;
+}
+
+.dark{
+    background:#4a0719;
+}
+
+.square:hover{
+    filter:brightness(1.08);
+}
+
+/* queen */
+
+.queen{
+    position:absolute;
+    font-size:62px;
+    cursor:pointer;
+    transition:.45s ease;
+    z-index:5;
+
+    color:white;
+
+    text-shadow:
+    0 0 15px rgba(255,255,255,.4),
+    0 0 35px rgba(255,0,90,.35);
+}
+
+/* popup */
+
+.message{
+    position:fixed;
+    z-index:99999;
+
+    min-width:240px;
+    max-width:280px;
+
+    padding:18px 22px;
+
+    background:rgba(15,0,8,.9);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:24px;
+
+    color:#fff0f4;
+
+    font-size:17px;
+
+    line-height:1.6;
+
+    box-shadow:
+    0 0 40px rgba(255,0,90,.25);
+
+    opacity:0;
+
+    transform:translateY(15px) scale(.9);
+
+    transition:.4s ease;
+
+    pointer-events:none;
+}
+
+.message.show{
+
+    opacity:1;
+
+    transform:translateY(0) scale(1);
+
+}
+
+/* note */
+
+.note{
+    margin-top:24px;
+    color:#ffd4df;
+    font-size:12px;
+    letter-spacing:4px;
+    opacity:.7;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Checkmate</h1>
+
+    <div class="subtitle">
+        EVERY MOVE HOLDS A MESSAGE ♟️
+    </div>
+
+    <div class="board-wrapper">
+
+        <!-- top letters -->
+
+        <div class="top-coords">
+            <span>a</span>
+            <span>b</span>
+            <span>c</span>
+            <span>d</span>
+            <span>e</span>
+            <span>f</span>
+            <span>g</span>
+            <span>h</span>
+        </div>
+
+        <div class="middle-area">
+
+            <!-- left numbers -->
+
+            <div class="left-coords">
+                <span>8</span>
+                <span>7</span>
+                <span>6</span>
+                <span>5</span>
+                <span>4</span>
+                <span>3</span>
+                <span>2</span>
+                <span>1</span>
+            </div>
+
+            <!-- board -->
+
+            <div class="board" id="board"></div>
+
+        </div>
+
+    </div>
+
+    <div class="note">
+        move the queen to discover every note ✦
+    </div>
+
+</div>
+
+<script>
+
+/* unique messages */
+
+const messages = [
+
+"Your smile feels like sunlight.",
+"I could listen to you forever.",
+"You make ordinary moments magical.",
+"My favorite place is beside you.",
+"You are my calm in chaos.",
+"I still get excited to talk to you.",
+"Your laugh is my favorite sound.",
+"You feel like home to me.",
+
+"You make my heart feel safe.",
+"I would choose you every time.",
+"Even silence feels beautiful with you.",
+"You are my sweetest habit.",
+"You make my world softer.",
+"You are the poetry in my life.",
+"I love the way you exist.",
+"You are worth every heartbeat.",
+
+"My heart smiles when I see you.",
+"You are my favorite hello.",
+"I fall for you more each day.",
+"You make everything brighter.",
+"I adore every little thing about you.",
+"You are my favorite thought.",
+"You are my peaceful place.",
+"You feel like a dream.",
+
+"I love the way you look at me.",
+"You make time feel softer.",
+"You are my prettiest distraction.",
+"Being with you feels unreal.",
+"You are my favorite person.",
+"My world changed when I met you.",
+"You make love feel easy.",
+"You are my lucky charm.",
+
+"I never get tired of you.",
+"You are my sweetest memory.",
+"Your voice stays in my mind.",
+"You make my soul feel warm.",
+"You are my safest feeling.",
+"I love every version of you.",
+"You make my heart race.",
+"You are my forever favorite.",
+
+"You are art in human form.",
+"I would find you in every lifetime.",
+"You make my heart glow.",
+"You are my sweetest chapter.",
+"You are my soft place to land.",
+"Your eyes feel like stars.",
+"I treasure every moment with you.",
+"You make me believe in magic.",
+
+"You are the best part of my day.",
+"I carry you in my heart always.",
+"You are my most beautiful coincidence.",
+"You make life feel romantic.",
+"You are my comfort person.",
+"I love your beautiful mind.",
+"You are my favorite feeling.",
+"My heart belongs to you.",
+
+"You are the reason I smile more.",
+"You are my sweetest addiction.",
+"You are impossible not to love.",
+"I feel lucky loving you.",
+"You make my world complete.",
+"You are my dream come true.",
+"I would replay every moment with you.",
+"You are my sweetest checkmate."
+
+];
+
+/* create board */
+
+const board = document.getElementById("board");
+
+let index = 0;
+
+for(let row = 0; row < 8; row++){
+
+    for(let col = 0; col < 8; col++){
+
+        const square = document.createElement("div");
+
+        square.classList.add("square");
+
+        if((row + col) % 2 === 0){
+
+            square.classList.add("light");
+
+        }else{
+
+            square.classList.add("dark");
+
+        }
+
+        square.dataset.row = row;
+        square.dataset.col = col;
+
+        square.dataset.message = messages[index];
+
+        index++;
+
+        board.appendChild(square);
+
+    }
+
+}
+
+/* queen */
+
+const queen = document.createElement("div");
+
+queen.classList.add("queen");
+
+queen.innerHTML = "♛";
+
+board.appendChild(queen);
+
+/* starting position */
+
+let currentRow = 7;
+let currentCol = 3;
+
+function placeQueen(){
+
+    const size = 80;
+
+    queen.style.left = (currentCol * size + 8) + "px";
+
+    queen.style.top = (currentRow * size + 2) + "px";
+
+}
+
+placeQueen();
+
+/* popup */
+
+const popup = document.createElement("div");
+
+popup.classList.add("message");
+
+document.body.appendChild(popup);
+
+/* movement */
+
+const squares = document.querySelectorAll(".square");
+
+squares.forEach(square => {
+
+    square.addEventListener("click",(e)=>{
+
+        currentRow = parseInt(square.dataset.row);
+
+        currentCol = parseInt(square.dataset.col);
+
+        placeQueen();
+
+        popup.innerHTML = square.dataset.message;
+
+        popup.style.left = `${e.clientX + 20}px`;
+
+        popup.style.top = `${e.clientY - 20}px`;
+
+        popup.classList.add("show");
+
+        clearTimeout(window.popupTimeout);
+
+        window.popupTimeout = setTimeout(()=>{
+
+            popup.classList.remove("show");
+
+        },2500);
+
+    });
+
+});
+
+/* floating hearts */
+
+for(let i = 0; i < 35; i++){
+
+    const heart = document.createElement("div");
+
+    heart.classList.add("heart");
+
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+
+    heart.style.fontSize = (Math.random() * 18 + 10) + "px";
+
+    heart.style.animationDuration = (Math.random() * 8 + 7) + "s";
+
+    heart.style.animationDelay = Math.random() * 5 + "s";
+
+    document.body.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+</html>
